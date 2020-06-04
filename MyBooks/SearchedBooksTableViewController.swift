@@ -13,7 +13,7 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
     //MARK: Properties
     
     @IBOutlet weak var searchText: UISearchBar!
-    var books = [Book]()
+    var searchedBooks = [Book]()
     
     struct ResultJson: Codable {
         let items: [ItemJson]?
@@ -47,7 +47,7 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(3)
         searchText.delegate = self
         searchText.placeholder = "本のタイトルや著者名を入力してください"
 //        tableView.dataSource = self
@@ -63,22 +63,22 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return books.count
+        return searchedBooks.count
     }
     
      override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookTableViewCell", for: indexPath) as? BookTableViewCell else {
-            fatalError("The dequeued cell is not an instance of BookTableViewCell.")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchedBooksTableViewCell", for: indexPath) as? SearchedBooksTableViewCell else {
+            fatalError("The dequeued cell is not an instance of SearchedBooksTableViewCell.")
         }
         
-        let book = books[indexPath.row]
+        let book = searchedBooks[indexPath.row]
         
         cell.photoImageView.image = book.image
         cell.titleLabel.text = book.title
         cell.authorsLabel.text = book.authors
         cell.printTypeLabel.text = book.printType
          
-         return cell
+        return cell
      }
     
     /*
@@ -144,7 +144,7 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
         }
         
         // create request URL
-        guard let req_url = URL(string: "https://www.googleapis.com/books/v1/volumes?maxResults=40&q=\(keyword_encode)") else {
+        guard let req_url = URL(string: "https://www.googleapis.com/books/v1/volumes?maxResults=10&q=\(keyword_encode)") else {
             return
         }
         print(req_url)
@@ -159,7 +159,7 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
                 let decoder = JSONDecoder()
                 let json = try decoder.decode(ResultJson.self, from: data!)
                 
-                self.books.removeAll()
+                self.searchedBooks.removeAll()
                 
                 if let items = json.items {
                     for item in items {
@@ -191,18 +191,12 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
                         let book = Book.init(title: item.volumeInfo.title, authorsList: item.volumeInfo.authors, imageLink: imageLink, publisher: item.volumeInfo.publisher, publishedDate: item.volumeInfo.publishedDate, printType: item.volumeInfo.printType, pageCount: item.volumeInfo.pageCount, language: item.volumeInfo.language, description: item.volumeInfo.description)
                         
                         if let book = book {
-                            self.books.append(book)
+                            self.searchedBooks.append(book)
                         } else {
                             print("book is nil")
                         }
                     }
                     self.tableView.reloadData()
-                    
-                    if let bookdbg = self.books.first {
-                        print("--------------")
-                        print("book[0] = \(bookdbg)")
-                        print(self.books.count)
-                    }
                 }
             } catch {
                 print("error")
@@ -210,5 +204,15 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
             }
         })
         task.resume()
+    }
+    
+    
+    //MARK: Action
+    
+    @IBAction func statusButton(_ sender: UIButton) {
+        let point = self.tableView.convert(sender.frame.origin, from: sender.superview)
+        if let indexPath = self.tableView.indexPathForRow(at: point) {
+            allMyBooks.append(searchedBooks[indexPath.row])
+        }
     }
 }

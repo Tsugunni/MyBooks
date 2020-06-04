@@ -1,5 +1,5 @@
 //
-//  BookTableViewCell.swift
+//  SearchedBooksTableViewCell.swift
 //  MyBooks
 //
 //  Created by Tsugumi on 2020/05/28.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BookTableViewCell: UITableViewCell {
+class SearchedBooksTableViewCell: UITableViewCell {
     
     
     //MARK: Properties
@@ -17,7 +17,6 @@ class BookTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorsLabel: UILabel!
     @IBOutlet weak var printTypeLabel: UILabel!
-    
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,9 +30,12 @@ class BookTableViewCell: UITableViewCell {
     }
     
     
-    //MARK: Actions
+    //MARK: Action
     
-    @IBAction func addButton(_ sender: Any) {
-    }
-    
+//    @IBAction func statusButton(_ sender: UIButton) {
+//        let point = self.tableView.convertPoint(sender.frame.origin, fromView: sender.superview)
+//        if let indexPath = self.tableView.indexPathForRowAtPoint(point) {
+//            print("section: \(indexPath.section) - row: \(indexPath.row)")
+//        }
+//    }
 }
