@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		36F513BD247EC3D2001801EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F513BC247EC3D2001801EA /* AppDelegate.swift */; };
 		36F513BF247EC3D2001801EA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F513BE247EC3D2001801EA /* SceneDelegate.swift */; };
-		36F513C1247EC3D2001801EA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F513C0247EC3D2001801EA /* ViewController.swift */; };
+		36F513C1247EC3D2001801EA /* BookDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F513C0247EC3D2001801EA /* BookDetailsViewController.swift */; };
 		36F513C4247EC3D2001801EA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36F513C2247EC3D2001801EA /* Main.storyboard */; };
 		36F513C6247EC3D9001801EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36F513C5247EC3D9001801EA /* Assets.xcassets */; };
 		36F513C9247EC3D9001801EA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36F513C7247EC3D9001801EA /* LaunchScreen.storyboard */; };
@@ -35,7 +35,7 @@
 		36F513B9247EC3D2001801EA /* MyBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36F513BC247EC3D2001801EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36F513BE247EC3D2001801EA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		36F513C0247EC3D2001801EA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		36F513C0247EC3D2001801EA /* BookDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailsViewController.swift; sourceTree = "<group>"; };
 		36F513C3247EC3D2001801EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		36F513C5247EC3D9001801EA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		36F513C8247EC3D9001801EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -92,7 +92,7 @@
 				36F513BC247EC3D2001801EA /* AppDelegate.swift */,
 				36F513BE247EC3D2001801EA /* SceneDelegate.swift */,
 				36F513E22480AD1D001801EA /* Book.swift */,
-				36F513C0247EC3D2001801EA /* ViewController.swift */,
+				36F513C0247EC3D2001801EA /* BookDetailsViewController.swift */,
 				36F513DE247FEA05001801EA /* SearchedBooksTableViewCell.swift */,
 				36F513E62484A2FE001801EA /* MyBooksCollectionViewCell.swift */,
 				36F513E0247FF996001801EA /* SearchedBooksTableViewController.swift */,
@@ -219,7 +219,7 @@
 				36F513E52484A29B001801EA /* MyBooksCollectionViewController.swift in Sources */,
 				36F513E1247FF996001801EA /* SearchedBooksTableViewController.swift in Sources */,
 				36F513E32480AD1D001801EA /* Book.swift in Sources */,
-				36F513C1247EC3D2001801EA /* ViewController.swift in Sources */,
+				36F513C1247EC3D2001801EA /* BookDetailsViewController.swift in Sources */,
 				36F513E72484A2FE001801EA /* MyBooksCollectionViewCell.swift in Sources */,
 				36F513BD247EC3D2001801EA /* AppDelegate.swift in Sources */,
 				36F513BF247EC3D2001801EA /* SceneDelegate.swift in Sources */,
