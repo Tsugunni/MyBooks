@@ -8,7 +8,20 @@
 
 import UIKit
 
-class Book {
+class Book: Equatable {
+    
+    static func == (lhs: Book, rhs: Book) -> Bool {
+        return lhs.title == rhs.title &&
+               lhs.authors == rhs.authors &&
+               lhs.image == rhs.image &&
+               lhs.publisher == rhs.publisher &&
+               lhs.publishedDate == rhs.publishedDate &&
+               lhs.printType == rhs.printType &&
+               lhs.pageCount == rhs.pageCount &&
+               lhs.language == rhs.language &&
+               lhs.description == rhs.description
+    }
+    
     
     //MARK: Properties
     
@@ -31,9 +44,9 @@ class Book {
     init?(title: String?, authorsList: [String]?, imageLink: URL?, publisher: String?, publishedDate: String?,
           printType: String?, pageCount: Int?, language: String?, description: String?) {
         
-//        guard !title.isEmpty else {
-//            return nil
-//        }
+        //        guard !title.isEmpty else {
+        //            return nil
+        //        }
         
         var authors: String = ""
         if let authorsList = authorsList {
@@ -65,6 +78,6 @@ class Book {
         self.description = description
         self.status = "notAdded"
         self.rating = 0
-        self.impression = nil
+        self.impression = ""
     }
 }

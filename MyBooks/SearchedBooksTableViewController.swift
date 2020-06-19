@@ -47,7 +47,7 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(3)
+        
         searchText.delegate = self
         searchText.placeholder = "本のタイトルや著者名を入力してください"
 //        tableView.dataSource = self
