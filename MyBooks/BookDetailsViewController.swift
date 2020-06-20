@@ -36,8 +36,8 @@ class BookDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadSampleBook()
-        allMyBooks.append(book!)
+//        loadSampleBook()
+//        allMyBooks.append(book!)
         setBookData()
         updateImpresstionsView()
     }
@@ -94,7 +94,6 @@ class BookDetailsViewController: UIViewController {
         ratingControl.rating = self.book?.rating ?? 0
         impressionsLabel.text = self.book?.impression ?? "感想を入力してください"
         
-//        setBookData()
         updateImpresstionsView()
 
     }
@@ -127,7 +126,7 @@ class BookDetailsViewController: UIViewController {
     }
     
     private func updateImpresstionsView() {
-        if allMyBooks.contains(book!) {
+        if allMyBooks.contains(self.book!) {
             if book?.rating == 0, book?.impression == "" {
                 writeImpressionsButton.isHidden = false
                 impressionsStackView.isHidden = true

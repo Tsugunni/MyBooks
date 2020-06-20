@@ -96,6 +96,27 @@ class MyBooksCollectionViewController: UICollectionViewController, UICollectionV
     */
     
     
+    //MARK: Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        guard let bookDetailsVC = segue.destination as? BookDetailsViewController else {
+            fatalError("Unexpected destination: \(segue.destination)")
+        }
+        
+        guard let selectedBookCell = sender as? MyBooksCollectionViewCell else {
+            fatalError("Unexpected sender: \(String(describing: sender))")
+        }
+        
+        guard let indexPath = collectionView.indexPath(for: selectedBookCell) else {
+            fatalError("The selected cell is not being displayed by the table")
+        }
+        
+        let selectedBook = allMyBooks[indexPath.row]
+        bookDetailsVC.book = selectedBook
+    }
+    
+    
     //MARK: Private Methods
     
     private func setCollectionViewCellSize() {

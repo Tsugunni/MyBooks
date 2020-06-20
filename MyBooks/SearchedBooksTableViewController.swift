@@ -50,7 +50,6 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
         
         searchText.delegate = self
         searchText.placeholder = "本のタイトルや著者名を入力してください"
-//        tableView.dataSource = self
     }
     
     
@@ -77,6 +76,10 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
         cell.titleLabel.text = book.title
         cell.authorsLabel.text = book.authors
         cell.printTypeLabel.text = book.printType
+        
+        if allMyBooks.contains(book) {
+            cell.addButton.isHidden = true
+        }
          
         return cell
      }
@@ -116,15 +119,28 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
      }
      */
     
-    /*
+    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        
+        guard let bookDetailsVC = segue.destination as? BookDetailsViewController else {
+            fatalError("Unexpected destination: \(segue.destination)")
+        }
+        
+        guard let selectedBookCell = sender as? SearchedBooksTableViewCell else {
+            fatalError("Unexpected sender: \(String(describing: sender))")
+        }
+        
+        guard let indexPath = tableView.indexPath(for: selectedBookCell) else {
+            fatalError("The selected cell is not being displayed by the table")
+        }
+        
+        let selectedBook = searchedBooks[indexPath.row]
+        bookDetailsVC.book = selectedBook
      }
-     */
     
     
     //MARK: Search Books
@@ -133,7 +149,6 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
         view.endEditing(true)
         
         if let searchWord = searchBar.text {
-            print(searchWord)
             searchBooks(keyword: searchWord)
         }
     }
@@ -212,7 +227,16 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
     @IBAction func statusButton(_ sender: UIButton) {
         let point = self.tableView.convert(sender.frame.origin, from: sender.superview)
         if let indexPath = self.tableView.indexPathForRow(at: point) {
-            allMyBooks.append(searchedBooks[indexPath.row])
+            let book = searchedBooks[indexPath.row]
+            if allMyBooks.contains(book) {
+                return
+            }
+            allMyBooks.append(book)
+            
+            if allMyBooks.contains(book) {
+//                self.tableView.reloadRows(at: [indexPath], with: .none)
+                self.tableView.reloadData()
+            }
         }
     }
 }

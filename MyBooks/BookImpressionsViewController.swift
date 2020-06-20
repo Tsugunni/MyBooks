@@ -66,11 +66,4 @@ class BookImpressionsViewController: UIViewController, UITextViewDelegate {
         bookDetailsViewController.book?.rating = ratingControl.rating
         bookDetailsViewController.book?.impression = impressionsTextView.text
     }
-    
-    
-    //MARK: Private Methods
-    
-    private func setAppearanceOfTextView() {
-        
-    }
 }
