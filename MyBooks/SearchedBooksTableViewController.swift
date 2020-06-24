@@ -52,6 +52,10 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
         searchText.placeholder = "本のタイトルや著者名を入力してください"
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.reloadData()
+    }
+    
     
     // MARK: - Table view data source
     
@@ -77,8 +81,11 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
         cell.authorsLabel.text = book.authors
         cell.printTypeLabel.text = book.printType
         
+//        print(indexPath.row)
         if allMyBooks.contains(book) {
             cell.addButton.isHidden = true
+        } else {
+            cell.addButton.isHidden = false
         }
          
         return cell
@@ -231,12 +238,45 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
             if allMyBooks.contains(book) {
                 return
             }
-            allMyBooks.append(book)
             
-            if allMyBooks.contains(book) {
-//                self.tableView.reloadRows(at: [indexPath], with: .none)
-                self.tableView.reloadData()
-            }
+            let alertController = UIAlertController(title: "読書状況", message: "選択してください", preferredStyle: .actionSheet)
+            
+            let wantToReadAction = UIAlertAction(title: "読みたい", style: .default, handler: { (action) in
+                book.status = "読みたい"
+                wantToReadBooks.append(book)
+                allMyBooks.append(book)
+                if allMyBooks.contains(book) {
+                    self.tableView.reloadRows(at: [indexPath], with: .none)
+                }
+            })
+            alertController.addAction(wantToReadAction)
+            
+            let readingAction = UIAlertAction(title: "読んでる", style: .default, handler: { (action) in
+                book.status = "読んでる"
+                readingBooks.append(book)
+                allMyBooks.append(book)
+                if allMyBooks.contains(book) {
+                    self.tableView.reloadRows(at: [indexPath], with: .none)
+                }
+            })
+            alertController.addAction(readingAction)
+            
+            let readAction = UIAlertAction(title: "読んだ", style: .default, handler: { (action) in
+                book.status = "読んだ"
+                readBooks.append(book)
+                allMyBooks.append(book)
+                if allMyBooks.contains(book) {
+                    self.tableView.reloadRows(at: [indexPath], with: .none)
+                }
+            })
+            alertController.addAction(readAction)
+            
+            let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            
+            alertController.popoverPresentationController?.sourceView = view
+            
+            present(alertController, animated: true, completion: nil)
         }
     }
 }

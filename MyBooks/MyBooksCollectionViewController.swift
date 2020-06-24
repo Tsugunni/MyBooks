@@ -10,6 +10,9 @@ import UIKit
 
 private let reuseIdentifier = "MyBooksCollectionViewCell"
 var allMyBooks = [Book]()
+var wantToReadBooks = [Book]()
+var readingBooks = [Book]()
+var readBooks = [Book]()
 
 class MyBooksCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -23,7 +26,7 @@ class MyBooksCollectionViewController: UICollectionViewController, UICollectionV
         setCollectionViewCellSize()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.collectionView.reloadData()
     }
@@ -40,6 +43,7 @@ class MyBooksCollectionViewController: UICollectionViewController, UICollectionV
 
     // MARK: - UICollectionViewDataSource
 
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1

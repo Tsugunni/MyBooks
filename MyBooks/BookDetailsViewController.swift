@@ -40,6 +40,14 @@ class BookDetailsViewController: UIViewController {
 //        allMyBooks.append(book!)
         setBookData()
         updateImpresstionsView()
+        
+        statusButton.layer.borderWidth = 0.5
+        statusButton.layer.borderColor = UIColor.blue.cgColor
+        statusButton.layer.cornerRadius = 5.0
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.viewDidLoad()
     }
     
 //    override func viewWillAppear(_ animated: Bool) {
@@ -99,10 +107,86 @@ class BookDetailsViewController: UIViewController {
     }
     
     @IBAction func statusButton(_ sender: Any) {
+        if let book = self.book {
+            let alertController = UIAlertController(title: "読書状況", message: nil, preferredStyle: .actionSheet)
+            
+            let wantToReadAction = UIAlertAction(title: "読みたい", style: .default, handler: { (action) in
+                book.status = "読みたい"
+                
+                if !wantToReadBooks.contains(self.book!) {
+                    wantToReadBooks.append(self.book!)
+                }
+                
+                if let index = readingBooks.firstIndex(of: self.book!) {
+                    readingBooks.remove(at: index)
+                }
+                
+                if let index = readBooks.firstIndex(of: self.book!) {
+                    readBooks.remove(at: index)
+                }
+                
+                self.changeStatus()
+            })
+            alertController.addAction(wantToReadAction)
+            
+            let readingAction = UIAlertAction(title: "読んでる", style: .default, handler: { (action) in
+                book.status = "読んでる"
+                
+                if let index = wantToReadBooks.firstIndex(of: self.book!) {
+                    wantToReadBooks.remove(at: index)
+                }
+                
+                if !readingBooks.contains(self.book!) {
+                    readingBooks.append(self.book!)
+                }
+                
+                if let index = readBooks.firstIndex(of: self.book!) {
+                    readBooks.remove(at: index)
+                }
+                
+                self.changeStatus()
+            })
+            alertController.addAction(readingAction)
+            
+            let readAction = UIAlertAction(title: "読んだ", style: .default, handler: { (action) in
+                book.status = "読んだ"
+                
+                if let index = wantToReadBooks.firstIndex(of: self.book!) {
+                    wantToReadBooks.remove(at: index)
+                }
+                
+                if let index = readingBooks.firstIndex(of: self.book!) {
+                    readingBooks.remove(at: index)
+                }
+                
+                if !readBooks.contains(self.book!) {
+                    readBooks.append(self.book!)
+                }
+                
+                self.changeStatus()
+            })
+            alertController.addAction(readAction)
+            
+            let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            
+            alertController.popoverPresentationController?.sourceView = view
+            
+            present(alertController, animated: true, completion: nil)
+        }
     }
     
     
     //MARK: Private Methods
+    
+    private func changeStatus() {
+        if !allMyBooks.contains(self.book!) {
+            allMyBooks.append(self.book!)
+        }
+        statusButton.setTitle(self.book?.status, for: .normal)
+        updateImpresstionsView()
+//        print(wantToReadBooks.count, readingBooks.count, readBooks.count)
+    }
     
     private func setBookData() {
         photoImageView.image = self.book?.image
@@ -116,6 +200,12 @@ class BookDetailsViewController: UIViewController {
         pageCountLabel.text = self.book?.pageCount?.description ?? "-"
         languageLabel.text = self.book?.language ?? "-"
         descriptionLabel.text = self.book?.description ?? "-"
+        
+        if self.book?.status == "未追加" {
+            statusButton.setTitle("追加", for: .normal)
+        } else {
+            statusButton.setTitle(self.book?.status, for: .normal)
+        }
         
         titleLabel.numberOfLines = 0
         titleLabel.sizeToFit()

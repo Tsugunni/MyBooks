@@ -100,7 +100,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="addButton" destination="KTp-J5-QFZ" id="CSU-Rx-khb"/>
+                                    <outlet property="addButton" destination="KTp-J5-QFZ" id="0D2-N0-ugZ"/>
                                     <outlet property="authorsLabel" destination="cse-97-W4p" id="9T3-oE-prT"/>
                                     <outlet property="photoImageView" destination="4JX-9Q-jIA" id="NnQ-WF-09k"/>
                                     <outlet property="printTypeLabel" destination="wm7-l7-3b0" id="oIZ-ko-GoF"/>
@@ -232,20 +232,6 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cM-k9-4Tn">
-                                                <rect key="frame" x="350" y="96" width="40" height="30"/>
-                                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="jN2-Mi-9Os"/>
-                                                    <constraint firstAttribute="height" constant="30" id="lR5-xQ-66L"/>
-                                                </constraints>
-                                                <state key="normal" title="追加">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="statusButton:" destination="40a-Sd-HfW" eventType="touchUpInside" id="1qE-7U-0vt"/>
-                                                </connections>
-                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="作者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vv6-qW-BqG">
                                                 <rect key="frame" x="149" y="49.5" width="237" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -261,6 +247,21 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="260" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cM-k9-4Tn">
+                                                <rect key="frame" x="346" y="96" width="40" height="30"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="lR5-xQ-66L"/>
+                                                </constraints>
+                                                <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="-5" maxY="0.0"/>
+                                                <state key="normal" title="追加あ">
+                                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="statusButton:" destination="40a-Sd-HfW" eventType="touchUpInside" id="1qE-7U-0vt"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
@@ -281,7 +282,7 @@
                                             <constraint firstItem="eUZ-gk-PyU" firstAttribute="top" secondItem="jm5-Dm-9v4" secondAttribute="bottom" constant="30" id="d8c-ea-Dd4"/>
                                             <constraint firstItem="CmP-ar-Tsa" firstAttribute="top" secondItem="0jd-Gi-JLn" secondAttribute="top" constant="20" id="dFt-BE-AFx"/>
                                             <constraint firstAttribute="trailing" secondItem="D1z-4a-VeO" secondAttribute="trailing" constant="20" id="g7E-z0-kKo"/>
-                                            <constraint firstAttribute="trailingMargin" secondItem="5cM-k9-4Tn" secondAttribute="trailing" constant="24" id="lmY-d5-L3x"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="5cM-k9-4Tn" secondAttribute="trailing" constant="20" id="lmY-d5-L3x"/>
                                             <constraint firstItem="D1z-4a-VeO" firstAttribute="top" secondItem="eUZ-gk-PyU" secondAttribute="bottom" constant="8" id="mvP-Z8-eFo"/>
                                             <constraint firstItem="ebN-ID-jIB" firstAttribute="top" secondItem="0jd-Gi-JLn" secondAttribute="top" constant="20" id="pQ2-j3-TCk"/>
                                             <constraint firstItem="CmP-ar-Tsa" firstAttribute="leading" secondItem="ebN-ID-jIB" secondAttribute="trailing" constant="16" id="qNd-ur-dql"/>
@@ -334,18 +335,18 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3451" y="-27"/>
+            <point key="canvasLocation" x="3512" y="13"/>
         </scene>
         <!--感想-->
         <scene sceneID="l6X-Ax-YBF">
             <objects>
                 <viewController id="gFC-62-41c" customClass="BookImpressionsViewController" customModule="MyBooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uHA-df-5g9" customClass="BookImp">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8rI-bH-bGZ">
-                                <rect key="frame" x="0.0" y="56" width="414" height="752"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Jd-t6-kwP">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="800"/>
@@ -432,7 +433,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUr-FB-Tve" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="Vb7-vy-4ea" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="5257" y="-27"/>
+            <point key="canvasLocation" x="5383" y="13"/>
         </scene>
         <!--ライブラリ-->
         <scene sceneID="Ts1-Eb-nxS">
@@ -472,7 +473,7 @@
                                 <size key="customSize" width="132" height="150"/>
                                 <connections>
                                     <outlet property="photoImageView" destination="SJP-iW-3NP" id="QrO-W4-aju"/>
-                                    <segue destination="40a-Sd-HfW" kind="show" id="WKT-oU-ZDG"/>
+                                    <segue destination="40a-Sd-HfW" kind="show" id="LsQ-M6-Vth"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -481,7 +482,7 @@
                             <outlet property="delegate" destination="zDJ-46-veD" id="a8p-QT-hbq"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="ライブラリ" id="pUQ-aW-nCq"/>
+                    <navigationItem key="navigationItem" title="ライブラリ" id="6eS-F9-mFp"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wHm-ux-WIU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -498,7 +499,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="uDg-KX-Uwg" kind="relationship" relationship="viewControllers" id="Oig-TE-XVG"/>
+                        <segue destination="nMo-Hd-GBY" kind="relationship" relationship="viewControllers" id="Oig-TE-XVG"/>
                         <segue destination="Elf-og-SMV" kind="relationship" relationship="viewControllers" id="05w-wY-x6a"/>
                     </connections>
                 </tabBarController>
@@ -523,7 +524,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3hh-qb-daJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4306" y="335"/>
+            <point key="canvasLocation" x="4480" y="413"/>
         </scene>
         <!--検索-->
         <scene sceneID="Rk4-NG-hjq">
@@ -545,27 +546,27 @@
             <point key="canvasLocation" x="1382.608695652174" y="-331.47321428571428"/>
         </scene>
         <!--ライブラリ-->
-        <scene sceneID="Lns-4v-dZn">
+        <scene sceneID="hSZ-lZ-bI8">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uDg-KX-Uwg" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nMo-Hd-GBY" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="ライブラリ" id="ctd-3D-0zl"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="q9C-e1-KUg">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5Ci-JE-6Fb">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="zDJ-46-veD" kind="relationship" relationship="rootViewController" id="gex-Gf-JjT"/>
+                        <segue destination="zDJ-46-veD" kind="relationship" relationship="rootViewController" id="tHQ-R3-CEI"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nfn-0k-Jok" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aND-Ax-FJ0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1382.608695652174" y="392.41071428571428"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bFn-Ct-hdt"/>
-        <segue reference="dkT-7X-T8c"/>
+        <segue reference="3cJ-1O-rlN"/>
+        <segue reference="LsQ-M6-Vth"/>
     </inferredMetricsTieBreakers>
 </document>

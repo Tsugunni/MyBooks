@@ -76,7 +76,7 @@ class Book: Equatable {
         self.pageCount = pageCount
         self.language = language
         self.description = description
-        self.status = "notAdded"
+        self.status = "未追加"
         self.rating = 0
         self.impression = ""
     }
