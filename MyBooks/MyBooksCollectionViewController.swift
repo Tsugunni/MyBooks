@@ -14,7 +14,14 @@ var wantToReadBooks = [Book]()
 var readingBooks = [Book]()
 var readBooks = [Book]()
 
-class MyBooksCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class MyBooksCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    //MARK: Properties
+    
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    var currentBooksList: [Book] = allMyBooks
     
     
     override func viewDidLoad() {
@@ -28,7 +35,8 @@ class MyBooksCollectionViewController: UICollectionViewController, UICollectionV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.collectionView.reloadData()
+        
+        separateBooksByStatus()
     }
 
     /*
@@ -44,27 +52,26 @@ class MyBooksCollectionViewController: UICollectionViewController, UICollectionV
     // MARK: - UICollectionViewDataSource
 
     
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return allMyBooks.count
+        return currentBooksList.count
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? MyBooksCollectionViewCell else {
             fatalError("The dequeued cell is not an instance of MyBooksTableViewCell.")
         }
         
-        let book = allMyBooks[indexPath.row]
+        let book = currentBooksList[indexPath.row]
         
         cell.photoImageView.image = book.image
-//        print(book.title)
+        
         return cell
     }
 
@@ -101,6 +108,7 @@ class MyBooksCollectionViewController: UICollectionViewController, UICollectionV
     
     
     //MARK: Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -116,8 +124,15 @@ class MyBooksCollectionViewController: UICollectionViewController, UICollectionV
             fatalError("The selected cell is not being displayed by the table")
         }
         
-        let selectedBook = allMyBooks[indexPath.row]
+        let selectedBook = currentBooksList[indexPath.row]
         bookDetailsVC.book = selectedBook
+    }
+    
+    
+    //MARK: Actions
+    
+    @IBAction func segmantChanged(_ sender: Any) {
+        separateBooksByStatus()
     }
     
     
@@ -125,10 +140,31 @@ class MyBooksCollectionViewController: UICollectionViewController, UICollectionV
     
     private func setCollectionViewCellSize() {
         let layout = UICollectionViewFlowLayout()
-        let width: CGFloat = view.frame.width / 3 - 10
-        let height: CGFloat = width * 1.2
+        let width: CGFloat = self.collectionView.layer.bounds.width / 3 - 40
+        let height: CGFloat = width / 0.6
         layout.itemSize = CGSize(width: width, height: height)
         layout.minimumLineSpacing = 20
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 20)
         collectionView.collectionViewLayout = layout
+    }
+    
+    private func separateBooksByStatus() {
+        let selectedIndex = segmentedControl.selectedSegmentIndex
+        let segmentTitle = segmentedControl.titleForSegment(at: selectedIndex)
+        
+        switch segmentTitle {
+        case "全て":
+            currentBooksList = allMyBooks
+        case "読みたい":
+            currentBooksList = wantToReadBooks
+        case "読んでる":
+            currentBooksList = readingBooks
+        case "読んだ":
+            currentBooksList = readBooks
+        default:
+            fatalError("The selected segment is not exist")
+        }
+        
+        self.collectionView.reloadData()
     }
 }

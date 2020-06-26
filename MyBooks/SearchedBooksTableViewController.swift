@@ -146,7 +146,13 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
         }
         
         let selectedBook = searchedBooks[indexPath.row]
-        bookDetailsVC.book = selectedBook
+        
+        if allMyBooks.contains(selectedBook) {
+            let index = allMyBooks.firstIndex(of: selectedBook)
+            bookDetailsVC.book = allMyBooks[index!]
+        } else {
+            bookDetailsVC.book = selectedBook
+        }
      }
     
     

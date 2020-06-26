@@ -13,7 +13,6 @@ class Book: Equatable {
     static func == (lhs: Book, rhs: Book) -> Bool {
         return lhs.title == rhs.title &&
                lhs.authors == rhs.authors &&
-               lhs.image == rhs.image &&
                lhs.publisher == rhs.publisher &&
                lhs.publishedDate == rhs.publishedDate &&
                lhs.printType == rhs.printType &&
