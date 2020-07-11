@@ -313,7 +313,7 @@
                     <navigationItem key="navigationItem" title="詳細" id="wtj-cV-0ft"/>
                     <connections>
                         <outlet property="authorsLabel" destination="vv6-qW-BqG" id="fuw-Qh-lZb"/>
-                        <outlet property="descriptionLabel" destination="D1z-4a-VeO" id="1av-zQ-gZ4"/>
+                        <outlet property="explanationLabel" destination="D1z-4a-VeO" id="1av-zQ-gZ4"/>
                         <outlet property="impressionsLabel" destination="TP5-Pv-Oxf" id="syc-9K-xe1"/>
                         <outlet property="impressionsStackView" destination="0la-U9-BYN" id="apr-2y-BYz"/>
                         <outlet property="languageLabel" destination="0zK-AG-unY" id="DCV-W7-WmX"/>
@@ -342,11 +342,11 @@
             <objects>
                 <viewController id="gFC-62-41c" customClass="BookImpressionsViewController" customModule="MyBooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uHA-df-5g9" customClass="BookImp">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8rI-bH-bGZ">
-                                <rect key="frame" x="0.0" y="56" width="414" height="752"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Jd-t6-kwP">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="800"/>
@@ -473,6 +473,7 @@
                                                 <constraint firstItem="SJP-iW-3NP" firstAttribute="leading" secondItem="Hok-Ve-9HN" secondAttribute="leading" id="fpg-ht-DL2"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <gestureRecognizers/>
                                         <size key="customSize" width="137" height="257"/>
                                         <connections>
                                             <outlet property="photoImageView" destination="SJP-iW-3NP" id="QrO-W4-aju"/>
@@ -594,7 +595,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bFn-Ct-hdt"/>
+        <segue reference="3cJ-1O-rlN"/>
         <segue reference="rbU-3i-25t"/>
     </inferredMetricsTieBreakers>
 </document>

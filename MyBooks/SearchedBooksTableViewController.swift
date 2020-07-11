@@ -14,6 +14,7 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
     
     @IBOutlet weak var searchText: UISearchBar!
     var searchedBooks = [Book]()
+    let numberOfGettingBooks = 10
     
     struct ResultJson: Codable {
         let items: [ItemJson]?
@@ -81,7 +82,6 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
         cell.authorsLabel.text = book.authors
         cell.printTypeLabel.text = book.printType
         
-//        print(indexPath.row)
         if allMyBooks.contains(book) {
             cell.addButton.isHidden = true
         } else {
@@ -90,41 +90,6 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
          
         return cell
      }
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
     
     
      // MARK: - Navigation
@@ -172,10 +137,9 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
         }
         
         // create request URL
-        guard let req_url = URL(string: "https://www.googleapis.com/books/v1/volumes?maxResults=10&q=\(keyword_encode)") else {
+        guard let req_url = URL(string: "https://www.googleapis.com/books/v1/volumes?maxResults=\(numberOfGettingBooks)&q=\(keyword_encode)") else {
             return
         }
-        print(req_url)
         
         let req = URLRequest(url: req_url)
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
@@ -216,7 +180,26 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
                             }
                         }
                         
-                        let book = Book.init(title: item.volumeInfo.title, authorsList: item.volumeInfo.authors, imageLink: imageLink, publisher: item.volumeInfo.publisher, publishedDate: item.volumeInfo.publishedDate, printType: item.volumeInfo.printType, pageCount: item.volumeInfo.pageCount, language: item.volumeInfo.language, description: item.volumeInfo.description)
+                        var imageData: UIImage!
+                        if let imageLink = imageLink {
+                            if let imageD = try? Data(contentsOf: imageLink) {
+                                imageData = UIImage(data: imageD)
+                            }
+                        } else {
+                            imageData = UIImage(named: "NoImage")
+                        }
+                        
+                        var authors: String = ""
+                        if let authorsList = item.volumeInfo.authors {
+                            for (i, author) in authorsList.enumerated() {
+                                if i > 0 {
+                                    authors += ", "
+                                }
+                                authors += author
+                            }
+                        }
+
+                        let book = Book(title: item.volumeInfo.title, authors: authors, image: imageData, publisher: item.volumeInfo.publisher, publishedDate: item.volumeInfo.publishedDate, printType: item.volumeInfo.printType, pageCount: item.volumeInfo.pageCount, language: item.volumeInfo.language, explanation: item.volumeInfo.description)
                         
                         if let book = book {
                             self.searchedBooks.append(book)
@@ -251,6 +234,7 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
                 book.status = "読みたい"
                 wantToReadBooks.append(book)
                 allMyBooks.append(book)
+                MyBooksCollectionViewController.saveBooks()
                 if allMyBooks.contains(book) {
                     self.tableView.reloadRows(at: [indexPath], with: .none)
                 }
@@ -261,6 +245,7 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
                 book.status = "読んでる"
                 readingBooks.append(book)
                 allMyBooks.append(book)
+                MyBooksCollectionViewController.saveBooks()
                 if allMyBooks.contains(book) {
                     self.tableView.reloadRows(at: [indexPath], with: .none)
                 }
@@ -271,6 +256,7 @@ class SearchedBooksTableViewController: UITableViewController, UISearchBarDelega
                 book.status = "読んだ"
                 readBooks.append(book)
                 allMyBooks.append(book)
+                MyBooksCollectionViewController.saveBooks()
                 if allMyBooks.contains(book) {
                     self.tableView.reloadRows(at: [indexPath], with: .none)
                 }

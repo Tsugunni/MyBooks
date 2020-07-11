@@ -7,14 +7,16 @@
 //
 
 import UIKit
+import os.log
 
 private let reuseIdentifier = "MyBooksCollectionViewCell"
-var allMyBooks = [Book]()
-var wantToReadBooks = [Book]()
-var readingBooks = [Book]()
-var readBooks = [Book]()
+var allMyBooks: [Book] = []
+var wantToReadBooks: [Book] = []
+var readingBooks: [Book] = []
+var readBooks: [Book] = []
 
-class MyBooksCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class MyBooksCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+    
     
     //MARK: Properties
     
@@ -30,38 +32,42 @@ class MyBooksCollectionViewController: UIViewController, UICollectionViewDataSou
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        let longPressGesture = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(self.longPressAction(_:)))
+        longPressGesture.delegate = self
+        self.view.addGestureRecognizer(longPressGesture)
+        
         setCollectionViewCellSize()
+        
+        let loadedBooks: [[Book]] = loadBooks()
+        allMyBooks += loadedBooks[0]
+        wantToReadBooks += loadedBooks[1]
+        readingBooks += loadedBooks[2]
+        readBooks += loadedBooks[3]
+        
+        currentBooksList = allMyBooks
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        separateBooksByStatus()
+        matchListAndSegment()
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
+    
     // MARK: - UICollectionViewDataSource
-
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return currentBooksList.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? MyBooksCollectionViewCell else {
@@ -74,37 +80,6 @@ class MyBooksCollectionViewController: UIViewController, UICollectionViewDataSou
         
         return cell
     }
-
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
     
     
     //MARK: Navigation
@@ -132,7 +107,50 @@ class MyBooksCollectionViewController: UIViewController, UICollectionViewDataSou
     //MARK: Actions
     
     @IBAction func segmantChanged(_ sender: Any) {
-        separateBooksByStatus()
+        matchListAndSegment()
+    }
+    
+    @objc func longPressAction(_ sender: UILongPressGestureRecognizer) {
+        let point = sender.location(in: self.collectionView)
+        let indexPath = self.collectionView.indexPathForItem(at: point)
+        
+        if let indexPath = indexPath {
+            let alertController = UIAlertController(title: "編集", message: "選択してください", preferredStyle: .actionSheet)
+            
+            let deleteAction = UIAlertAction(title: "削除", style: .destructive, handler: { (action) in
+                print(indexPath, "delete")
+                print(self.currentBooksList)
+                
+                let book: Book = self.currentBooksList[indexPath.row]
+                switch book.status {
+                case "読みたい":
+                    let index = wantToReadBooks.firstIndex(of: book)
+                    wantToReadBooks.remove(at: index!)
+                case "読んでる":
+                    let index = readingBooks.firstIndex(of: book)
+                    readingBooks.remove(at: index!)
+                case "読んだ":
+                    let index = readBooks.firstIndex(of: book)
+                    readBooks.remove(at: index!)
+                default:
+                    fatalError("The status is not exist")
+                }
+                
+                let index = allMyBooks.firstIndex(of: book)
+                allMyBooks.remove(at: index!)
+                MyBooksCollectionViewController.saveBooks()
+                
+                self.matchListAndSegment()
+            })
+            alertController.addAction(deleteAction)
+            
+            let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            
+            alertController.popoverPresentationController?.sourceView = view
+            
+            present(alertController, animated: true, completion: nil)
+        }
     }
     
     
@@ -148,7 +166,7 @@ class MyBooksCollectionViewController: UIViewController, UICollectionViewDataSou
         collectionView.collectionViewLayout = layout
     }
     
-    private func separateBooksByStatus() {
+    private func matchListAndSegment() {
         let selectedIndex = segmentedControl.selectedSegmentIndex
         let segmentTitle = segmentedControl.titleForSegment(at: selectedIndex)
         
@@ -166,5 +184,104 @@ class MyBooksCollectionViewController: UIViewController, UICollectionViewDataSou
         }
         
         self.collectionView.reloadData()
+    }
+    
+    
+    internal func loadBooks() -> [[Book]] {
+        
+        var loadedBooks: [[Book]] = []
+        let userDefaults = UserDefaults.standard
+        
+        // check if there is a value in UserDefaults
+//        if let userDefaultsObject = userDefaults.object(forKey: Book.allMyBooksArchiveURL.path) {
+//            print("\nuserDefaultsObject")
+//            dump(userDefaultsObject)
+//        } else {
+//            print("\nuserDefaultsObject is not exist")
+//        }
+        
+        if let loadedAllMyBooksData = userDefaults.data(forKey: Book.allMyBooksArchiveURL.path) {
+            do {
+                let loadedAllMyBooks = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(loadedAllMyBooksData) as? [Book]
+                loadedBooks.append(loadedAllMyBooks ?? [])
+            } catch let error {
+                print("Unexpected error: \(error).")
+            }
+        } else {
+            loadedBooks.append([])
+        }
+        
+        if let loadedWantToReadBooksData = userDefaults.data(forKey: Book.wantToReadBooksArchiveURL.path) {
+            do {
+                let loadedWantToReadBooks = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(loadedWantToReadBooksData) as? [Book]
+                loadedBooks.append(loadedWantToReadBooks ?? [])
+            } catch {
+                print("Unexpected error: \(error).")
+            }
+        } else {
+            loadedBooks.append([])
+        }
+        
+        if let loadedReadingBooksData = userDefaults.data(forKey: Book.readingBooksArchiveURL.path) {
+            do {
+                let loadedReadingBooks = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(loadedReadingBooksData) as? [Book]
+                loadedBooks.append(loadedReadingBooks ?? [])
+            } catch {
+                print("Unexpected error: \(error).")
+            }
+        } else {
+            loadedBooks.append([])
+        }
+        
+        if let loadedReadBooksData = userDefaults.data(forKey: Book.readBooksArchiveURL.path) {
+            do {
+                let loadedReadBooks = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(loadedReadBooksData) as? [Book]
+                loadedBooks.append(loadedReadBooks ?? [])
+            } catch {
+                print("Unexpected error: \(error).")
+            }
+        } else {
+            loadedBooks.append([])
+        }
+        
+        return loadedBooks
+    }
+    
+    
+    //MARK: Class Methods
+    
+    class func saveBooks() {
+        let userDefaults = UserDefaults.standard
+        
+        guard let archiveAllMyBooks = try? NSKeyedArchiver.archivedData(withRootObject: allMyBooks, requiringSecureCoding: true) else {
+            fatalError("Archive failed")
+        }
+        userDefaults.set(archiveAllMyBooks, forKey: Book.allMyBooksArchiveURL.path)
+        guard let archiveWantToReadBooks = try? NSKeyedArchiver.archivedData(withRootObject: wantToReadBooks, requiringSecureCoding: true) else {
+            fatalError("Archive failed")
+        }
+        userDefaults.set(archiveWantToReadBooks, forKey: Book.wantToReadBooksArchiveURL.path)
+        
+        guard let archiveReadingBooks = try? NSKeyedArchiver.archivedData(withRootObject: readingBooks, requiringSecureCoding: true) else {
+            fatalError("Archive failed")
+        }
+        userDefaults.set(archiveReadingBooks, forKey: Book.readingBooksArchiveURL.path)
+        
+        guard let archiveReadBooks = try? NSKeyedArchiver.archivedData(withRootObject: readBooks, requiringSecureCoding: true) else {
+            fatalError("Archive failed")
+        }
+        userDefaults.set(archiveReadBooks, forKey: Book.readBooksArchiveURL.path)
+        
+        let isSuccessfulSave =
+            NSKeyedArchiver.archiveRootObject(allMyBooks, toFile: Book.allMyBooksArchiveURL.path) &&
+            NSKeyedArchiver.archiveRootObject(wantToReadBooks, toFile: Book.wantToReadBooksArchiveURL.path) &&
+            NSKeyedArchiver.archiveRootObject(readingBooks, toFile: Book.readingBooksArchiveURL.path) &&
+            NSKeyedArchiver.archiveRootObject(readBooks, toFile: Book.readBooksArchiveURL.path)
+        
+        if isSuccessfulSave {
+            os_log("Books successfully saved.", log: OSLog.default, type: .debug)
+        } else {
+            os_log("Failed to save books...", log: OSLog.default, type: .error)
+        }
     }
 }

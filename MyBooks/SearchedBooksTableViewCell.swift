@@ -29,14 +29,4 @@ class SearchedBooksTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    
-    //MARK: Action
-    
-//    @IBAction func statusButton(_ sender: UIButton) {
-//        let point = self.tableView.convertPoint(sender.frame.origin, fromView: sender.superview)
-//        if let indexPath = self.tableView.indexPathForRowAtPoint(point) {
-//            print("section: \(indexPath.section) - row: \(indexPath.row)")
-//        }
-//    }
 }

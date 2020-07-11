@@ -31,13 +31,12 @@ class BookDetailsViewController: UIViewController {
     @IBOutlet weak var pageCountLabel: UILabel!
     @IBOutlet weak var languageLabel: UILabel!
     
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var explanationLabel: UILabel!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        loadSampleBook()
-//        allMyBooks.append(book!)
+        
         setBookData()
         updateImpresstionsView()
         
@@ -49,26 +48,6 @@ class BookDetailsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         self.viewDidLoad()
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        print("appear")
-//
-//        setBookData()
-//        if allMyBooks.contains(book!) {
-//            if book?.rating == 0, book?.impression == nil {
-//                impressionsStackView.isHidden = true
-//            }
-//            else {
-//                writeImpressionsButton.isHidden = true
-//            }
-//        }
-//        else {
-//            writeImpressionsButton.isHidden = true
-//            impressionsStackView.isHidden = true
-//        }
-//
-//
-//    }
     
     
     //MARK: - Navigation
@@ -183,9 +162,9 @@ class BookDetailsViewController: UIViewController {
         if !allMyBooks.contains(self.book!) {
             allMyBooks.append(self.book!)
         }
+        MyBooksCollectionViewController.saveBooks()
         statusButton.setTitle(self.book?.status, for: .normal)
         updateImpresstionsView()
-//        print(wantToReadBooks.count, readingBooks.count, readBooks.count)
     }
     
     private func setBookData() {
@@ -199,7 +178,7 @@ class BookDetailsViewController: UIViewController {
         printTypeLabel.text = self.book?.printType ?? "-"
         pageCountLabel.text = self.book?.pageCount?.description ?? "-"
         languageLabel.text = self.book?.language ?? "-"
-        descriptionLabel.text = self.book?.description ?? "-"
+        explanationLabel.text = self.book?.explanation ?? "-"
         
         if self.book?.status == "未追加" {
             statusButton.setTitle("追加", for: .normal)
@@ -211,8 +190,8 @@ class BookDetailsViewController: UIViewController {
         titleLabel.sizeToFit()
         impressionsLabel.numberOfLines = 0
         impressionsLabel.sizeToFit()
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.sizeToFit()
+        explanationLabel.numberOfLines = 0
+        explanationLabel.sizeToFit()
     }
     
     private func updateImpresstionsView() {
@@ -232,21 +211,21 @@ class BookDetailsViewController: UIViewController {
         }
     }
     
-    private func loadSampleBook() {
-        self.book = Book(
-            title: "また、同じ夢を見ていた【無料お試し読み増量版】",
-            authorsList: ["住野よる"],
-            imageLink: URL(string: "http://books.google.com/books/content?id=gPpqDwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"),
-            //            imageLink: nil,
-            publisher: "双葉社",
-            publishedDate: nil,
-            printType: "BOOK",
-            pageCount: 256,
-            language: "ja",
-            description: "【劇場アニメ「君の膵臓をたべたい」大ヒット記念！ 無料お試し読み増量版公開中！】デビュー作にして80万部を超えるベストセラーとなった「君の膵臓（すいぞう）をたべたい」の著者が贈る、待望の最新作。友達のいない少女、リストカットを繰り返す女子高生、アバズレと罵られる女、一人静かに余生を送る老婆。彼女たちの“幸せ”は、どこにあるのか。「やり直したい」ことがある、“今”がうまくいかない全ての人たちに送る物語。"
-        )
+//    private func loadSampleBook() {
+//        self.book = Book(
+//            title: "また、同じ夢を見ていた【無料お試し読み増量版】",
+//            authorsList: ["住野よる"],
+//            imageLink: URL(string: "http://books.google.com/books/content?id=gPpqDwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"),
+//            //            imageLink: nil,
+//            publisher: "双葉社",
+//            publishedDate: nil,
+//            printType: "BOOK",
+//            pageCount: 256,
+//            language: "ja",
+//            explanation: "【劇場アニメ「君の膵臓をたべたい」大ヒット記念！ 無料お試し読み増量版公開中！】デビュー作にして80万部を超えるベストセラーとなった「君の膵臓（すいぞう）をたべたい」の著者が贈る、待望の最新作。友達のいない少女、リストカットを繰り返す女子高生、アバズレと罵られる女、一人静かに余生を送る老婆。彼女たちの“幸せ”は、どこにあるのか。「やり直したい」ことがある、“今”がうまくいかない全ての人たちに送る物語。"
+//        )
 //        book?.rating = 3
 //        book?.impression = "ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ"
-    }
+//    }
 }
 
